@@ -6,13 +6,13 @@ import (
 	"fmt"
 )
 
-// ItemClient is the rest Api from Items
-type ItemClient struct {
+// Client is the rest Api from Items
+type Client struct {
 	BaseClient
 }
 
 // GetAll Retrieves all of the Items from the server
-func (c *ItemClient) GetAll() (*[]Item, error) {
+func (c *Client) GetAll() (*[]Item, error) {
 
 	body, err := c.httpRequest("items", "GET", bytes.Buffer{})
 
@@ -31,7 +31,7 @@ func (c *ItemClient) GetAll() (*[]Item, error) {
 }
 
 // GetItem gets an item with a specific name from the server
-func (c *ItemClient) GetItem(name string) (*Item, error) {
+func (c *Client) GetItem(name string) (*Item, error) {
 
 	body, err := c.httpRequest(fmt.Sprintf("items/%v", name), "GET", bytes.Buffer{})
 
@@ -50,7 +50,7 @@ func (c *ItemClient) GetItem(name string) (*Item, error) {
 }
 
 // NewItem creates a new Item
-func (c *ItemClient) NewItem(item *Item) error {
+func (c *Client) NewItem(item *Item) error {
 
 	buf := bytes.Buffer{}
 	err := json.NewEncoder(&buf).Encode(item)
@@ -69,7 +69,7 @@ func (c *ItemClient) NewItem(item *Item) error {
 }
 
 // UpdateItem updates the values of an item
-func (c *ItemClient) UpdateItem(item *Item) error {
+func (c *Client) UpdateItem(item *Item) error {
 	buf := bytes.Buffer{}
 
 	err := json.NewEncoder(&buf).Encode(item)
@@ -86,7 +86,7 @@ func (c *ItemClient) UpdateItem(item *Item) error {
 }
 
 // DeleteItem removes an item from the server
-func (c *ItemClient) DeleteItem(itemName string) error {
+func (c *Client) DeleteItem(itemName string) error {
 
 	_, err := c.httpRequest(fmt.Sprintf("items/%s", itemName), "DELETE", bytes.Buffer{})
 
