@@ -10,13 +10,13 @@ import (
 // BaseClient is the base Client for items
 type BaseClient struct {
 	hostname   string
-	port       int
+	port       *int
 	authToken  string
 	httpClient *http.Client
 }
 
 // NewBase creates an instance of the BaseClient client.
-func NewBase(hostname string, port int, token string) BaseClient {
+func NewBase(hostname string, port *int, token string) BaseClient {
 
 	return BaseClient{
 		hostname:   hostname,
@@ -63,5 +63,8 @@ func (c *BaseClient) httpRequest(path, method string, body bytes.Buffer) (closer
 }
 
 func (c *BaseClient) requestPath(path string) string {
-	return fmt.Sprintf("%s:%v/%s", c.hostname, c.port, path)
+	if c.port != nil {
+		return fmt.Sprintf("%s:%v/%s", c.hostname, *c.port, path)
+	}
+	return fmt.Sprintf("%s/%s", c.hostname, path)
 }
