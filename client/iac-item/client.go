@@ -89,7 +89,7 @@ func (c *Client) UpdateItem(item *Item) error {
 	if err != nil {
 		return err
 	}
-	_, err = c.httpRequest(fmt.Sprintf("items/%s", item.Name), "PUT", buf)
+	_, err = c.httpRequest("items", "PUT", buf)
 
 	if err != nil {
 		return err
