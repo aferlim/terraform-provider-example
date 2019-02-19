@@ -2,69 +2,110 @@ package iacitem
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
-	"io"
-	"net/http"
 )
 
-// BaseClient is the base Client for items
-type BaseClient struct {
-	hostname   string
-	port       int
-	authToken  string
-	httpClient *http.Client
+// Client is the rest Api from Items
+type Client struct {
+	BaseClient
 }
 
 // NewClient returns a new client configured to communicate on a server with the
 // given hostname and port and to send an Authorization Header with the value of
 // token
-func NewClient(hostname string, port int, token string) *BaseClient {
+func NewClient(hostname string, port int, token string) *Client {
 
-	return &BaseClient{
-		hostname:   hostname,
-		port:       port,
-		authToken:  token,
-		httpClient: &http.Client{},
-	}
-
+	return &Client{
+		NewBase(
+			hostname,
+			port,
+			token,
+		)}
 }
 
-func (c *BaseClient) httpRequest(path, method string, body bytes.Buffer) (closer io.ReadCloser, err error) {
+// GetAll Retrieves all of the Items from the server
+func (c *Client) GetAll() (*[]Item, error) {
 
-	req, err := http.NewRequest(method, c.requestPath(path), &body)
+	body, err := c.httpRequest("items", "GET", bytes.Buffer{})
 
 	if err != nil {
 		return nil, err
 	}
 
-	req.Header.Add("Authorization", c.authToken)
-
-	switch method {
-	case "GET":
-	case "DELETE":
-	default:
-		req.Header.Add("Content-Type", "application/json")
-	}
-
-	resp, err := c.httpClient.Do(req)
+	items := []Item{}
+	err = json.NewDecoder(body).Decode(&items)
 
 	if err != nil {
 		return nil, err
 	}
 
-	if resp.StatusCode != http.StatusOK {
-		respBody := new(bytes.Buffer)
-		_, err := respBody.ReadFrom(resp.Body)
-
-		if err != nil {
-			return nil, fmt.Errorf("got a non 200 status code: %v", resp.StatusCode)
-		}
-		return nil, fmt.Errorf("got a non 200 status code: %v - %s", resp.StatusCode, respBody.String())
-	}
-
-	return resp.Body, nil
+	return &items, nil
 }
 
-func (c *BaseClient) requestPath(path string) string {
-	return fmt.Sprintf("%s:%v/%s", c.hostname, c.port, path)
+// GetItem gets an item with a specific name from the server
+func (c *Client) GetItem(name string) (*Item, error) {
+
+	body, err := c.httpRequest(fmt.Sprintf("items/%v", name), "GET", bytes.Buffer{})
+
+	if err != nil {
+		return nil, err
+	}
+
+	item := &Item{}
+	err = json.NewDecoder(body).Decode(item)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return item, nil
+}
+
+// NewItem creates a new Item
+func (c *Client) NewItem(item *Item) error {
+
+	buf := bytes.Buffer{}
+	err := json.NewEncoder(&buf).Encode(item)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = c.httpRequest("items", "POST", buf)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// UpdateItem updates the values of an item
+func (c *Client) UpdateItem(item *Item) error {
+	buf := bytes.Buffer{}
+
+	err := json.NewEncoder(&buf).Encode(item)
+
+	if err != nil {
+		return err
+	}
+	_, err = c.httpRequest(fmt.Sprintf("items/%s", item.Name), "PUT", buf)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// DeleteItem removes an item from the server
+func (c *Client) DeleteItem(itemName string) error {
+
+	_, err := c.httpRequest(fmt.Sprintf("items/%s", itemName), "DELETE", bytes.Buffer{})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

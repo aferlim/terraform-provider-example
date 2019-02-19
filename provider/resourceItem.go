@@ -5,6 +5,7 @@ import (
 	"regexp"
 	"strings"
 
+	iacitem "github.com/aferlim/terraform-provider-example/client/iac-item"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -15,6 +16,7 @@ func validateName(v interface{}, k string) (ws []string, es []error) {
 	if !ok {
 		errs = append(errs, fmt.Errorf("Expected name to be string"))
 		return warns, errs
+
 	}
 	whiteSpace := regexp.MustCompile(`\s+`)
 	if whiteSpace.Match([]byte(value)) {
@@ -85,13 +87,13 @@ func resourceCreateItem(d *schema.ResourceData, m interface{}) error {
 func resourceReadItem(d *schema.ResourceData, m interface{}) error {
 	apiClient := m.(*iacitem.Client)
 
-	itemId := d.Id()
-	item, err := apiClient.GetItem(itemId)
+	itemID := d.Id()
+	item, err := apiClient.GetItem(itemID)
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			d.SetId("")
 		} else {
-			return fmt.Errorf("error finding Item with ID %s", itemId)
+			return fmt.Errorf("error finding Item with ID %s", itemID)
 		}
 	}
 
@@ -127,9 +129,9 @@ func resourceUpdateItem(d *schema.ResourceData, m interface{}) error {
 func resourceDeleteItem(d *schema.ResourceData, m interface{}) error {
 	apiClient := m.(*iacitem.Client)
 
-	itemId := d.Id()
+	itemID := d.Id()
 
-	err := apiClient.DeleteItem(itemId)
+	err := apiClient.DeleteItem(itemID)
 	if err != nil {
 		return err
 	}
@@ -140,14 +142,14 @@ func resourceDeleteItem(d *schema.ResourceData, m interface{}) error {
 func resourceExistsItem(d *schema.ResourceData, m interface{}) (bool, error) {
 	apiClient := m.(*iacitem.Client)
 
-	itemId := d.Id()
-	_, err := apiClient.GetItem(itemId)
+	itemID := d.Id()
+	_, err := apiClient.GetItem(itemID)
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return false, nil
-		} else {
-			return false, err
 		}
+		return false, err
+
 	}
 	return true, nil
 }
