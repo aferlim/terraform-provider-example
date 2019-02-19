@@ -14,12 +14,11 @@ type Client struct {
 // NewClient returns a new client configured to communicate on a server with the
 // given hostname and port and to send an Authorization Header with the value of
 // token
-func NewClient(hostname string, token string, port *int) *Client {
+func NewClient(hostname string, token string) *Client {
 
 	return &Client{
 		NewBase(
 			hostname,
-			port,
 			token,
 		)}
 }

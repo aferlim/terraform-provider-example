@@ -1,6 +1,6 @@
 provider "example" {
-  address = " http://iac-items.getsandbox.com"
-  port    = "80"
+  address = "http://iac-items.getsandbox.com"
+  port    = 80
   token   = "superSecretToken"
 }
 

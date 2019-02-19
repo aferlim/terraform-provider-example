@@ -15,11 +15,6 @@ func Provider() terraform.ResourceProvider {
 				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("SERVICE_ADDRESS", ""),
 			},
-			"port": {
-				Type:        schema.TypeInt,
-				Required:    false,
-				DefaultFunc: schema.EnvDefaultFunc("SERVICE_PORT", ""),
-			},
 			"token": {
 				Type:        schema.TypeString,
 				Required:    true,
@@ -35,9 +30,6 @@ func Provider() terraform.ResourceProvider {
 
 func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 	address := d.Get("address").(string)
-	port := d.Get("port").(*int)
-
 	token := d.Get("token").(string)
 	return iacitem.NewClient(address, token, port), nil
-
 }
