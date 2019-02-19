@@ -1,10 +1,12 @@
 package provider
 
 import (
+	iacitem "github.com/aferlim/terraform-provider-example/client/iac-item"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 )
 
+// Provider returns a terraform.ResourceProvider.
 func Provider() terraform.ResourceProvider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
@@ -34,7 +36,8 @@ func Provider() terraform.ResourceProvider {
 func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 	address := d.Get("address").(string)
 	port := d.Get("port").(int)
+
 	token := d.Get("token").(string)
-	return iacitem.client.NewClient(address, port, token), nil
+	return iacitem.NewClient(address, port, token), nil
 
 }
