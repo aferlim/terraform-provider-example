@@ -4,8 +4,8 @@ provider "example" {
 }
 
 resource "example_item" "test" {
-  name        = "item_via_terraform"
-  description = "this is an item created by terraform changed"
+  name        = "item_via_terraform_id"
+  description = "this is an item created by terraform chenget"
 
   tags = [
     "hello!",
@@ -14,11 +14,11 @@ resource "example_item" "test" {
 }
 
 resource "example_item" "second" {
-  name        = "item_via_terraform"
+  name        = "item_via_terraform_seccont_id"
   description = "this is an item created by terraform changed"
 
   tags = [
-    "hello!",
-    "terraform",
+    "hello! 2",
+    "terraform 2 ",
   ]
 }
