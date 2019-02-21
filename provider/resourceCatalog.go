@@ -62,7 +62,7 @@ func resourceCreateCatalog(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
-	d.Set("id", item)
+	d.SetId(item.ID)
 	return nil
 }
 

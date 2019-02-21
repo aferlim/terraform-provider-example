@@ -62,7 +62,7 @@ func resourceCreateCampaign(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
-	d.Set("id", item)
+	d.SetId(item.ID)
 	return nil
 }
 
@@ -79,7 +79,7 @@ func resourceReadCampaign(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	d.SetId(item.Name)
+	d.SetId(itemID)
 	d.Set("name", item.Name)
 	d.Set("clientId", item.ClientID)
 	d.Set("externalPoints", item.ExternalPoints)
