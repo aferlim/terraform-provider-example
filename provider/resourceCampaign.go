@@ -2,7 +2,6 @@ package provider
 
 import (
 	"fmt"
-	"math/rand"
 	"strings"
 
 	"github.com/aferlim/terraform-provider-example/client/campaign"
@@ -50,7 +49,7 @@ func resourceCreateCampaign(d *schema.ResourceData, m interface{}) error {
 	apiClient := m.(*AllClients).CampaignClient
 
 	item := campaign.Campaign{
-		ID:             string(rand.Intn(1000)),
+		//ID:             string(rand.Intn(1000)),
 		Name:           d.Get("name").(string),
 		ClientID:       d.Get("clientId").(int),
 		ExternalPoints: d.Get("externalPoints").(int),
