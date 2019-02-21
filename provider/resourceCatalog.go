@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/aferlim/terraform-provider-example/client/campaign"
+	"github.com/aferlim/terraform-provider-example/client/catalog"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func resourceCampaign() *schema.Resource {
+func resourceCatalog() *schema.Resource {
 	fmt.Print()
 	return &schema.Resource{
 		Schema: map[string]*schema.Schema{
@@ -22,35 +22,36 @@ func resourceCampaign() *schema.Resource {
 				Required:    true,
 				Description: "The name of the resource, also acts as it's unique ID",
 			},
-			"clientId": {
+			"projectId": {
 				Type:        schema.TypeInt,
 				Required:    true,
+				ForceNew:    true,
 				Description: "A description of an item",
 			},
-			"externalPoints": {
+			"conversionRate": {
 				Type:        schema.TypeInt,
-				Optional:    true,
+				Required:    true,
 				Description: "An optional list of tags, represented as a key, value pair",
 			},
 		},
-		Create: resourceCreateCampaign,
-		Read:   resourceReadCampaign,
-		Update: resourceUpdateCampaign,
-		Delete: resourceDeleteCampaign,
-		Exists: resourceExistsCampaign,
+		Create: resourceCreateCatalog,
+		Read:   resourceReadCatalog,
+		Update: resourceUpdateCatalog,
+		Delete: resourceDeleteCatalog,
+		Exists: resourceExistsCatalog,
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 	}
 }
 
-func resourceCreateCampaign(d *schema.ResourceData, m interface{}) error {
-	apiClient := m.(*AllClients).CampaignClient
+func resourceCreateCatalog(d *schema.ResourceData, m interface{}) error {
+	apiClient := m.(*AllClients).CatalogClient
 
-	item := campaign.Campaign{
+	item := catalog.Catalog{
 		Name:           d.Get("name").(string),
-		ClientID:       d.Get("clientId").(int),
-		ExternalPoints: d.Get("externalPoints").(int),
+		ProjectID:      d.Get("projectId").(int),
+		ConversionRate: d.Get("conversionRate").(int),
 	}
 
 	err := apiClient.NewItem(&item)
@@ -63,8 +64,8 @@ func resourceCreateCampaign(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func resourceReadCampaign(d *schema.ResourceData, m interface{}) error {
-	apiClient := m.(*AllClients).CampaignClient
+func resourceReadCatalog(d *schema.ResourceData, m interface{}) error {
+	apiClient := m.(*AllClients).CatalogClient
 
 	itemID := d.Id()
 	item, err := apiClient.GetItem(itemID)
@@ -79,18 +80,18 @@ func resourceReadCampaign(d *schema.ResourceData, m interface{}) error {
 	d.SetId(item.ID)
 	d.Set("id", item.ID)
 	d.Set("name", item.Name)
-	d.Set("clientId", item.ClientID)
-	d.Set("externalPoints", item.ExternalPoints)
+	d.Set("projectId", item.ProjectID)
+	d.Set("conversionRate", item.ConversionRate)
 	return nil
 }
 
-func resourceUpdateCampaign(d *schema.ResourceData, m interface{}) error {
-	apiClient := m.(*AllClients).CampaignClient
+func resourceUpdateCatalog(d *schema.ResourceData, m interface{}) error {
+	apiClient := m.(*AllClients).CatalogClient
 
-	item := campaign.Campaign{
+	item := catalog.Catalog{
 		Name:           d.Get("name").(string),
-		ClientID:       d.Get("clientId").(int),
-		ExternalPoints: d.Get("externalPoints").(int),
+		ProjectID:      d.Get("projectId").(int),
+		ConversionRate: d.Get("conversionRate").(int),
 	}
 
 	err := apiClient.UpdateItem(&item)
@@ -100,8 +101,8 @@ func resourceUpdateCampaign(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func resourceDeleteCampaign(d *schema.ResourceData, m interface{}) error {
-	apiClient := m.(*AllClients).CampaignClient
+func resourceDeleteCatalog(d *schema.ResourceData, m interface{}) error {
+	apiClient := m.(*AllClients).CatalogClient
 
 	itemID := d.Id()
 
@@ -113,8 +114,8 @@ func resourceDeleteCampaign(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func resourceExistsCampaign(d *schema.ResourceData, m interface{}) (bool, error) {
-	apiClient := m.(*AllClients).CampaignClient
+func resourceExistsCatalog(d *schema.ResourceData, m interface{}) (bool, error) {
+	apiClient := m.(*AllClients).CatalogClient
 
 	itemID := d.Id()
 	_, err := apiClient.GetItem(itemID)
