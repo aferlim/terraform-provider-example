@@ -43,7 +43,7 @@ func (c *Client) GetAll() (*[]Campaign, error) {
 }
 
 // GetItem gets an item with a specific name from the server
-func (c *Client) GetItem(id int) (*Campaign, error) {
+func (c *Client) GetItem(id string) (*Campaign, error) {
 
 	body, err := c.httpRequest(fmt.Sprintf("campaign/%v", id), "GET", bytes.Buffer{})
 
@@ -98,7 +98,7 @@ func (c *Client) UpdateItem(item *Campaign) error {
 }
 
 // DeleteItem removes an item from the server
-func (c *Client) DeleteItem(id int) error {
+func (c *Client) DeleteItem(id string) error {
 
 	_, err := c.httpRequest(fmt.Sprintf("campaign/%v", id), "DELETE", bytes.Buffer{})
 
