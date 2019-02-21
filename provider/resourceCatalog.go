@@ -2,6 +2,7 @@ package provider
 
 import (
 	"fmt"
+	"math/rand"
 	"strings"
 
 	"github.com/aferlim/terraform-provider-example/client/catalog"
@@ -49,6 +50,7 @@ func resourceCreateCatalog(d *schema.ResourceData, m interface{}) error {
 	apiClient := m.(*AllClients).CatalogClient
 
 	item := catalog.Catalog{
+		ID:             string(rand.Intn(1000)),
 		Name:           d.Get("name").(string),
 		ProjectID:      d.Get("projectId").(int),
 		ConversionRate: d.Get("conversionRate").(int),

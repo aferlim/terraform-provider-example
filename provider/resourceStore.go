@@ -2,6 +2,7 @@ package provider
 
 import (
 	"fmt"
+	"math/rand"
 	"strings"
 
 	"github.com/aferlim/terraform-provider-example/client/store"
@@ -27,7 +28,7 @@ func resourceStore() *schema.Resource {
 				Required:    true,
 				Description: "The name of the resource, also acts as it's unique ID",
 			},
-			"VendorId": {
+			"vendorId": {
 				Type:        schema.TypeInt,
 				Required:    true,
 				ForceNew:    true,
@@ -68,6 +69,7 @@ func resourceCreateStore(d *schema.ResourceData, m interface{}) error {
 	tags := []string{"parameter 1", "parameter 2", "parameter 3"}
 
 	item := store.Store{
+		ID:                     string(rand.Intn(1000)),
 		Name:                   d.Get("name").(string),
 		Description:            d.Get("description").(string),
 		VendorID:               d.Get("vendorId").(int),
