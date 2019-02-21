@@ -3,9 +3,9 @@ provider "example" {
   token   = "superSecretToken"
 }
 
-resource "example_item" "test" {
-  name        = "item_via_terraform_id"
-  description = "this is an item created by terraform chenget"
+resource "example_item" "kaizen" {
+  name        = "item_via_terraform_kaizen"
+  description = "this is an item created by terraform changed"
 
   tags = [
     "hello!",
@@ -18,7 +18,7 @@ resource "example_item" "second" {
   description = "this is an item created by terraform changed"
 
   tags = [
-    "hello! 2",
-    "terraform 2 ",
+    "hello!",
+    "terraform",
   ]
 }
