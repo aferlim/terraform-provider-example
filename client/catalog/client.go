@@ -43,7 +43,7 @@ func (c *Client) GetAll() (*[]Catalog, error) {
 }
 
 // GetItem gets an item with a specific name from the server
-func (c *Client) GetItem(id int) (*Catalog, error) {
+func (c *Client) GetItem(id string) (*Catalog, error) {
 
 	body, err := c.httpRequest(fmt.Sprintf("catalog/%v", id), "GET", bytes.Buffer{})
 
@@ -98,7 +98,7 @@ func (c *Client) UpdateItem(item *Catalog) error {
 }
 
 // DeleteItem removes an item from the server
-func (c *Client) DeleteItem(id int) error {
+func (c *Client) DeleteItem(id string) error {
 
 	_, err := c.httpRequest(fmt.Sprintf("catalog/%v", id), "DELETE", bytes.Buffer{})
 

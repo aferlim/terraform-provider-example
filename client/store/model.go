@@ -2,7 +2,7 @@ package store
 
 // Store represents a single campaign
 type Store struct {
-	ID                     int      `json:"id"`
+	ID                     string   `json:"id"`
 	Name                   string   `json:"name"`
 	Description            string   `json:"description"`
 	VendorID               int      `json:"vendorId"`

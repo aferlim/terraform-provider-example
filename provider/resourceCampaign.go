@@ -5,6 +5,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/aferlim/terraform-provider-example/client/campaign"
 	iacitem "github.com/aferlim/terraform-provider-example/client/iac-item"
 	"github.com/hashicorp/terraform/helper/schema"
 )
@@ -26,53 +27,49 @@ func validateName(v interface{}, k string) (ws []string, es []error) {
 	return warns, errs
 }
 
-func resourceItem() *schema.Resource {
+func resourceCampaign() *schema.Resource {
 	fmt.Print()
 	return &schema.Resource{
 		Schema: map[string]*schema.Schema{
-			"name": {
-				Type:         schema.TypeString,
-				Required:     true,
-				Description:  "The name of the resource, also acts as it's unique ID",
-				ForceNew:     true,
-				ValidateFunc: validateName,
-			},
-			"description": {
+			"id": {
 				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "The id of the resource, also acts as it's unique ID",
+			},
+			"name": {
+				Type:        schema.TypeString,
+				Required:    true,
+				Description: "The name of the resource, also acts as it's unique ID",
+			},
+			"clientId": {
+				Type:        schema.TypeInt,
 				Required:    true,
 				Description: "A description of an item",
 			},
-			"tags": {
-				Type:        schema.TypeSet,
+			"externalPoints": {
+				Type:        schema.TypeInt,
 				Optional:    true,
 				Description: "An optional list of tags, represented as a key, value pair",
-				Elem:        &schema.Schema{Type: schema.TypeString},
 			},
 		},
-		Create: resourceCreateItem,
-		Read:   resourceReadItem,
-		Update: resourceUpdateItem,
-		Delete: resourceDeleteItem,
-		Exists: resourceExistsItem,
+		Create: resourceCreateCampaign,
+		Read:   resourceReadCampaign,
+		Update: resourceUpdateCampaign,
+		Delete: resourceDeleteCampaign,
+		Exists: resourceExistsCampaign,
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 	}
 }
 
-func resourceCreateItem(d *schema.ResourceData, m interface{}) error {
-	apiClient := m.(*AllClients).ItemsClient
+func resourceCreateCampaign(d *schema.ResourceData, m interface{}) error {
+	apiClient := m.(*AllClients).CampaignClient
 
-	tfTags := d.Get("tags").(*schema.Set).List()
-	tags := make([]string, len(tfTags))
-	for i, tfTag := range tfTags {
-		tags[i] = tfTag.(string)
-	}
-
-	item := iacitem.Item{
-		Name:        d.Get("name").(string),
-		Description: d.Get("description").(string),
-		Tags:        tags,
+	item := campaign.Campaign{
+		Name:           d.Get("name").(string),
+		ClientID:       d.Get("clientId").(int),
+		ExternalPoints: d.Get("externalPoints").(int),
 	}
 
 	err := apiClient.NewItem(&item)
@@ -80,15 +77,16 @@ func resourceCreateItem(d *schema.ResourceData, m interface{}) error {
 	if err != nil {
 		return err
 	}
-	d.SetId(item.Name)
+
+	d.Set("id", item)
 	return nil
 }
 
-func resourceReadItem(d *schema.ResourceData, m interface{}) error {
-	apiClient := m.(*AllClients).ItemsClient
+func resourceReadCampaign(d *schema.ResourceData, m interface{}) error {
+	apiClient := m.(*AllClients).CampaignClient
 
 	itemID := d.Id()
-	item, err := apiClient.GetItem(itemID)
+	item, err := apiClient.GetItem(d.ID)
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			d.SetId("")
@@ -97,14 +95,15 @@ func resourceReadItem(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	d.SetId(item.Name)
+	d.SetId(item.ID)
+	d.Set("id", item.ID)
 	d.Set("name", item.Name)
-	d.Set("description", item.Description)
-	d.Set("tags", item.Tags)
+	d.Set("clientId", item.ClientID)
+	d.Set("externalPoints", item.ExternalPoints)
 	return nil
 }
 
-func resourceUpdateItem(d *schema.ResourceData, m interface{}) error {
+func resourceUpdateCampaign(d *schema.ResourceData, m interface{}) error {
 	apiClient := m.(*AllClients).ItemsClient
 
 	tfTags := d.Get("tags").(*schema.Set).List()
@@ -126,7 +125,7 @@ func resourceUpdateItem(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func resourceDeleteItem(d *schema.ResourceData, m interface{}) error {
+func resourceDeleteCampaign(d *schema.ResourceData, m interface{}) error {
 	apiClient := m.(*AllClients).ItemsClient
 
 	itemID := d.Id()
@@ -139,7 +138,7 @@ func resourceDeleteItem(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func resourceExistsItem(d *schema.ResourceData, m interface{}) (bool, error) {
+func resourceExistsCampaign(d *schema.ResourceData, m interface{}) (bool, error) {
 	apiClient := m.(*AllClients).ItemsClient
 
 	itemID := d.Id()
