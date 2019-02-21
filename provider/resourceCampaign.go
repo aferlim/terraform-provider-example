@@ -35,7 +35,7 @@ func resourceCampaign() *schema.Resource {
 			},
 		},
 		Create: resourceCreateCampaign,
-		Read:   resourceReadCampaign,
+		//Read:   resourceReadCampaign,
 		Update: resourceUpdateCampaign,
 		Delete: resourceDeleteCampaign,
 		Exists: resourceExistsCampaign,
@@ -64,26 +64,26 @@ func resourceCreateCampaign(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func resourceReadCampaign(d *schema.ResourceData, m interface{}) error {
-	apiClient := m.(*AllClients).CampaignClient
+// func resourceReadCampaign(d *schema.ResourceData, m interface{}) error {
+// 	apiClient := m.(*AllClients).CampaignClient
 
-	itemID := d.Id()
-	item, err := apiClient.GetItem(d.ID)
-	if err != nil {
-		if strings.Contains(err.Error(), "not found") {
-			d.SetId("")
-		} else {
-			return fmt.Errorf("error finding Item with ID %s", itemID)
-		}
-	}
+// 	itemID := d.Id()
+// 	item, err := apiClient.GetItem(itemID)
+// 	if err != nil {
+// 		if strings.Contains(err.Error(), "not found") {
+// 			d.SetId("")
+// 		} else {
+// 			return fmt.Errorf("error finding Item with ID %s", itemID)
+// 		}
+// 	}
 
-	d.SetId(item.ID)
-	d.Set("id", item.ID)
-	d.Set("name", item.Name)
-	d.Set("clientId", item.ClientID)
-	d.Set("externalPoints", item.ExternalPoints)
-	return nil
-}
+// 	d.SetId(item.ID)
+// 	d.Set("id", item.ID)
+// 	d.Set("name", item.Name)
+// 	d.Set("clientId", item.ClientID)
+// 	d.Set("externalPoints", item.ExternalPoints)
+// 	return nil
+// }
 
 func resourceUpdateCampaign(d *schema.ResourceData, m interface{}) error {
 	apiClient := m.(*AllClients).ItemsClient
