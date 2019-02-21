@@ -80,7 +80,6 @@ func resourceReadCampaign(d *schema.ResourceData, m interface{}) error {
 	}
 
 	d.SetId(item.ID)
-	d.Set("id", item.ID)
 	d.Set("name", item.Name)
 	d.Set("clientId", item.ClientID)
 	d.Set("externalPoints", item.ExternalPoints)

@@ -102,7 +102,6 @@ func resourceReadStore(d *schema.ResourceData, m interface{}) error {
 	}
 
 	d.SetId(item.ID)
-	d.Set("id", item.ID)
 	d.Set("name", item.Name)
 	d.Set("description", item.Description)
 	d.Set("vendorId", item.VendorID)

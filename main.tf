@@ -32,7 +32,7 @@ resource "example_campaign" "piloto" {
 resource "example_catalog" "catalogopiloto" {
   name           = "Piloto WebPremios Catalogo"
   projectId      = "${example_campaign.piloto.id}"
-  externalPoints = 1
+  conversionRate = 20
 }
 
 resource "example_store" "extra" {
