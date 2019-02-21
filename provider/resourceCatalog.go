@@ -79,7 +79,7 @@ func resourceReadCatalog(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	d.SetId(item.ID)
+	d.SetId(itemID)
 	d.Set("name", item.Name)
 	d.Set("projectId", item.ProjectID)
 	d.Set("conversionRate", item.ConversionRate)
