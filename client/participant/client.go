@@ -24,7 +24,7 @@ func NewClient(hostname string, token string) *Client {
 }
 
 // GetAll Retrieves all of the Items from the server
-func (c *Client) GetAll() (*[]Store, error) {
+func (c *Client) GetAll() (*[]Participant, error) {
 
 	body, err := c.httpRequest("participant", "GET", bytes.Buffer{})
 
@@ -32,7 +32,7 @@ func (c *Client) GetAll() (*[]Store, error) {
 		return nil, err
 	}
 
-	items := []Store{}
+	items := []Participant{}
 	err = json.NewDecoder(body).Decode(&items)
 
 	if err != nil {
@@ -43,7 +43,7 @@ func (c *Client) GetAll() (*[]Store, error) {
 }
 
 // GetItem gets an item with a specific name from the server
-func (c *Client) GetItem(id string) (*Store, error) {
+func (c *Client) GetItem(id string) (*Participant, error) {
 
 	body, err := c.httpRequest(fmt.Sprintf("participant/%v", id), "GET", bytes.Buffer{})
 
@@ -51,7 +51,7 @@ func (c *Client) GetItem(id string) (*Store, error) {
 		return nil, err
 	}
 
-	item := &Store{}
+	item := &Participant{}
 	err = json.NewDecoder(body).Decode(item)
 
 	if err != nil {
@@ -62,7 +62,7 @@ func (c *Client) GetItem(id string) (*Store, error) {
 }
 
 // NewItem creates a new Item
-func (c *Client) NewItem(item *Store) error {
+func (c *Client) NewItem(item *Participant) error {
 
 	buf := bytes.Buffer{}
 	err := json.NewEncoder(&buf).Encode(item)
@@ -81,7 +81,7 @@ func (c *Client) NewItem(item *Store) error {
 }
 
 // UpdateItem updates the values of an item
-func (c *Client) UpdateItem(item *Store) error {
+func (c *Client) UpdateItem(item *Participant) error {
 	buf := bytes.Buffer{}
 
 	err := json.NewEncoder(&buf).Encode(item)
