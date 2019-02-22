@@ -2,6 +2,7 @@ package provider
 
 import (
 	"fmt"
+	"math/rand"
 	"strings"
 
 	"github.com/aferlim/terraform-provider-example/client/campaign"
@@ -12,7 +13,7 @@ func resourceCampaign() *schema.Resource {
 	fmt.Print()
 	return &schema.Resource{
 		Schema: map[string]*schema.Schema{
-			"id": {
+			"code": {
 				Type:        schema.TypeString,
 				Computed:    true,
 				Description: "The id of the resource, also acts as it's unique ID",
@@ -49,7 +50,7 @@ func resourceCreateCampaign(d *schema.ResourceData, m interface{}) error {
 	apiClient := m.(*AllClients).CampaignClient
 
 	item := campaign.Campaign{
-		//ID:             string(rand.Intn(1000)),
+		ID:             string(rand.Intn(1000)),
 		Name:           d.Get("name").(string),
 		ClientID:       d.Get("clientId").(int),
 		ExternalPoints: d.Get("externalPoints").(int),
@@ -79,6 +80,7 @@ func resourceReadCampaign(d *schema.ResourceData, m interface{}) error {
 	}
 
 	d.SetId(itemID)
+	d.Set("code", itemID)
 	d.Set("name", item.Name)
 	d.Set("clientId", item.ClientID)
 	d.Set("externalPoints", item.ExternalPoints)
@@ -88,7 +90,10 @@ func resourceReadCampaign(d *schema.ResourceData, m interface{}) error {
 func resourceUpdateCampaign(d *schema.ResourceData, m interface{}) error {
 	apiClient := m.(*AllClients).CampaignClient
 
+	itemID := d.Id()
+
 	item := campaign.Campaign{
+		ID:             itemID,
 		Name:           d.Get("name").(string),
 		ClientID:       d.Get("clientId").(int),
 		ExternalPoints: d.Get("externalPoints").(int),
