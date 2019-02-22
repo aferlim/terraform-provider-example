@@ -4,6 +4,7 @@ import (
 	"github.com/aferlim/terraform-provider-example/client/campaign"
 	"github.com/aferlim/terraform-provider-example/client/catalog"
 	iacitem "github.com/aferlim/terraform-provider-example/client/iac-item"
+	"github.com/aferlim/terraform-provider-example/client/participant"
 	"github.com/aferlim/terraform-provider-example/client/store"
 )
 

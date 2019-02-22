@@ -90,6 +90,7 @@ func resourceReadCatalog(d *schema.ResourceData, m interface{}) error {
 	d.Set("name", item.Name)
 	d.Set("project_id", item.ProjectID)
 	d.Set("conversion_rate", item.ConversionRate)
+	d.Set("external_payment", item.ExternalPaymet)
 	return nil
 }
 

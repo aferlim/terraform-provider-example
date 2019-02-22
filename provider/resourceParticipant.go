@@ -28,7 +28,6 @@ func resourceParticipant() *schema.Resource {
 				Required:    true,
 				Description: "The name of the resource, also acts as it's unique ID",
 			},
-			,
 			"pasword": {
 				Type:        schema.TypeString,
 				Required:    true,
@@ -73,15 +72,15 @@ func resourceCreateParticipant(d *schema.ResourceData, m interface{}) error {
 	apiClient := m.(*AllClients).ParticipantClient
 
 	item := participant.Participant{
-		ID:             fmt.Sprintf("%v", rand.Intn(1000)),
-		Name:           d.Get("name").(string),
-		Login:           d.Get("login").(string),
-		Email:           d.Get("email").(string),
-		Password:           d.Get("password").(string),
-		ProjectID:      d.Get("project_id").(int),
-		CustomerID:      d.Get("customer_id").(int),
+		ID:                     fmt.Sprintf("%v", rand.Intn(1000)),
+		Name:                   d.Get("name").(string),
+		Login:                  d.Get("login").(string),
+		Email:                  d.Get("email").(string),
+		Password:               d.Get("password").(string),
+		ProjectID:              d.Get("project_id").(int),
+		CustomerID:             d.Get("customer_id").(int),
 		ProjectConfigurationID: d.Get("project_configuration_id").(int),
-		Active: d.Get("active").(bool),
+		Active:                 d.Get("active").(bool),
 	}
 
 	err := apiClient.NewItem(&item)
@@ -108,15 +107,14 @@ func resourceReadParticipant(d *schema.ResourceData, m interface{}) error {
 	}
 
 	d.SetId(itemID)
-	d.Set("name").(string),
-	d.Set("login").(string),
-	d.Set("email").(string),
-	d.Set("password").(string),
-	d.Set("project_id").(int),
-	d.Set("customer_id").(int),
-	d.Set("project_configuration_id").(int),
-	d.Set("active").(bool),
-
+	d.Set("name").(string)
+	d.Set("login").(string)
+	d.Set("email").(string)
+	d.Set("password").(string)
+	d.Set("project_id").(int)
+	d.Set("customer_id").(int)
+	d.Set("project_configuration_id").(int)
+	d.Set("active").(bool)
 	return nil
 }
 
@@ -124,15 +122,15 @@ func resourceUpdateParticipant(d *schema.ResourceData, m interface{}) error {
 	apiClient := m.(*AllClients).ParticipantClient
 
 	item := participant.Participant{
-		ID:             d.Id(),
-		Name:           d.Get("name").(string),
-		Login:           d.Get("login").(string),
-		Email:           d.Get("email").(string),
-		Password:           d.Get("password").(string),
-		ProjectID:      d.Get("project_id").(int),
-		CustomerID:      d.Get("customer_id").(int),
+		ID:                     d.Id(),
+		Name:                   d.Get("name").(string),
+		Login:                  d.Get("login").(string),
+		Email:                  d.Get("email").(string),
+		Password:               d.Get("password").(string),
+		ProjectID:              d.Get("project_id").(int),
+		CustomerID:             d.Get("customer_id").(int),
 		ProjectConfigurationID: d.Get("project_configuration_id").(int),
-		Active: d.Get("active").(bool),
+		Active:                 d.Get("active").(bool),
 	}
 
 	err := apiClient.UpdateItem(&item)
