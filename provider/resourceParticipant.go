@@ -107,14 +107,14 @@ func resourceReadParticipant(d *schema.ResourceData, m interface{}) error {
 	}
 
 	d.SetId(itemID)
-	d.Set("name").(string)
-	d.Set("login").(string)
-	d.Set("email").(string)
-	d.Set("password").(string)
-	d.Set("project_id").(int)
-	d.Set("customer_id").(int)
-	d.Set("project_configuration_id").(int)
-	d.Set("active").(bool)
+	d.Set("name", item.Name)
+	d.Set("login", item.Login)
+	d.Set("email", item.Email)
+	d.Set("password", item.Password)
+	d.Set("project_id", item.ProjectID)
+	d.Set("customer_id", item.CustomerID)
+	d.Set("project_configuration_id", item.ProjectConfigurationID)
+	d.Set("active", item.Active)
 	return nil
 }
 
