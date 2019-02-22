@@ -69,7 +69,7 @@ func resourceCreateStore(d *schema.ResourceData, m interface{}) error {
 	tags := []string{"parameter 1", "parameter 2", "parameter 3"}
 
 	item := store.Store{
-		ID:                     string(rand.Intn(1000)),
+		ID:                     fmt.Sprintf("%v", rand.Intn(1000)),
 		Name:                   d.Get("name").(string),
 		Description:            d.Get("description").(string),
 		VendorID:               d.Get("vendor_id").(int),

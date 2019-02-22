@@ -31,7 +31,7 @@ resource "example_campaign" "piloto" {
 
 resource "example_catalog" "catalogopiloto" {
   name            = "Piloto WebPremios Catalogo"
-  project_id      = "${example_campaign.piloto.code}"
+  project_id      = "${example_campaign.piloto.id}"
   conversion_rate = 20
 }
 
@@ -39,6 +39,6 @@ resource "example_store" "extra" {
   name                     = "Parceiro Extra Catalogo"
   description              = "Parceiro Extra Catalogo Description"
   vendor_id                = 59
-  project_configuration_id = "${example_catalog.catalogopiloto.code}"
+  project_configuration_id = "${example_catalog.catalogopiloto.id}"
   visible                  = 1
 }

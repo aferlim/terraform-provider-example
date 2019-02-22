@@ -50,7 +50,7 @@ func resourceCreateCatalog(d *schema.ResourceData, m interface{}) error {
 	apiClient := m.(*AllClients).CatalogClient
 
 	item := catalog.Catalog{
-		ID:             string(rand.Intn(1000)),
+		ID:             fmt.Sprintf("%v", rand.Intn(1000)),
 		Name:           d.Get("name").(string),
 		ProjectID:      d.Get("project_id").(int),
 		ConversionRate: d.Get("conversion_rate").(int),
