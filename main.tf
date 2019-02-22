@@ -23,25 +23,22 @@ resource "example_item" "second" {
   ]
 }
 
-# resource "example_campaign" "piloto" {
-#   name           = "Piloto WebPremios"
-#   clientId       = 1
-#   externalPoints = 1
-# }
+resource "example_campaign" "piloto" {
+  name            = "Piloto WebPremios"
+  client_id       = 1
+  external_points = 1
+}
 
+resource "example_catalog" "catalogopiloto" {
+  name           = "Piloto WebPremios Catalogo"
+  project_id     = "${example_campaign.piloto.id}"
+  conversionRate = 20
+}
 
-# resource "example_catalog" "catalogopiloto" {
-#   name           = "Piloto WebPremios Catalogo"
-#   projectId      = "${example_campaign.piloto.id}"
-#   conversionRate = 20
-# }
-
-
-# resource "example_store" "extra" {
-#   name                   = "Parceiro Extra Catalogo"
-#   description            = "Parceiro Extra Catalogo"
-#   vendorId               = 59
-#   projectConfigurationId = "${example_catalog.catalogopiloto.id}"
-#   visible                = 1
-# }
-
+resource "example_store" "extra" {
+  name                     = "Parceiro Extra Catalogo"
+  description              = "Parceiro Extra Catalogo Description"
+  vendor_id                = 59
+  project_configuration_id = "${example_catalog.catalogopiloto.id}"
+  visible                  = 1
+}
