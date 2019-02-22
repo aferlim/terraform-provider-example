@@ -15,12 +15,12 @@ func resourceParticipant() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"name": {
 				Type:        schema.TypeString,
-				Computed:    true,
+				Required:    true,
 				Description: "The id of the resource, also acts as it's unique ID",
 			},
 			"login": {
 				Type:        schema.TypeString,
-				Computed:    true,
+				Required:    true,
 				Description: "The id of the resource, also acts as it's unique ID",
 			},
 			"email": {
@@ -28,7 +28,7 @@ func resourceParticipant() *schema.Resource {
 				Required:    true,
 				Description: "The name of the resource, also acts as it's unique ID",
 			},
-			"pasword": {
+			"password": {
 				Type:        schema.TypeString,
 				Required:    true,
 				Description: "The name of the resource, also acts as it's unique ID",

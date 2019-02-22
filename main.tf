@@ -30,9 +30,10 @@ resource "example_campaign" "piloto" {
 }
 
 resource "example_catalog" "catalogopiloto" {
-  name            = "Piloto WebPremios Catalogo"
-  project_id      = "${example_campaign.piloto.id}"
-  conversion_rate = 20
+  name             = "Piloto WebPremios Catalogo"
+  project_id       = "${example_campaign.piloto.id}"
+  conversion_rate  = 20
+  external_payment = true
 }
 
 resource "example_store" "extra" {
@@ -57,4 +58,26 @@ resource "example_store" "casasbahia" {
   vendor_id                = 60
   project_configuration_id = "${example_catalog.catalogopiloto.id}"
   visible                  = 1
+}
+
+resource "example_participant" "bufoni" {
+  name                     = "Vinicius Bufoni"
+  login                    = "vinicius.bufoni"
+  email                    = "vinicius.bufoni@grupoltm.com.br"
+  password                 = "123456"
+  customer_id              = 88
+  project_id               = "${example_campaign.piloto.id}"
+  project_configuration_id = "${example_catalog.catalogopiloto.id}"
+  active                   = true
+}
+
+resource "example_participant" "naldo" {
+  name                     = "Andre Lima"
+  login                    = "andre.lima"
+  email                    = "andre.lima@grupoltm.com.br"
+  password                 = "123456"
+  customer_id              = 88
+  project_id               = "${example_campaign.piloto.id}"
+  project_configuration_id = "${example_catalog.catalogopiloto.id}"
+  active                   = true
 }
