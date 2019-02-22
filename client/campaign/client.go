@@ -71,7 +71,7 @@ func (c *Client) NewItem(item *Campaign) error {
 		return err
 	}
 
-	_, err = c.httpRequest("items", "POST", buf)
+	_, err = c.httpRequest("campaign", "POST", buf)
 
 	if err != nil {
 		return err
