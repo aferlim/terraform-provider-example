@@ -21,8 +21,8 @@ func Provider() terraform.ResourceProvider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"example_item": resourceItem(),
-			// "example_campaign": resourceCampaign(),
+			"example_item":     resourceItem(),
+			"example_campaign": resourceCampaign(),
 			// "example_catalog":  resourceCatalog(),
 			// "example_store":    resourceStore(),
 		},

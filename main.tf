@@ -5,7 +5,7 @@ provider "example" {
 
 resource "example_item" "kaizen" {
   name        = "item_via_terraform_kaizen"
-  description = "this is an item created by terraform changed"
+  description = "this is an item created by terraform "
 
   tags = [
     "hello!",
@@ -15,7 +15,7 @@ resource "example_item" "kaizen" {
 
 resource "example_item" "second" {
   name        = "item_via_terraform_seccont_id"
-  description = "this is an item created by terraform changed"
+  description = "this is an item created by terraform "
 
   tags = [
     "hello!",
