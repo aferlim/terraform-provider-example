@@ -34,6 +34,11 @@ func resourceCatalog() *schema.Resource {
 				Required:    true,
 				Description: "An optional list of tags, represented as a key, value pair",
 			},
+			"external_payment": {
+				Type:        schema.TypeBool,
+				Required:    true,
+				Description: "An optional list of tags, represented as a key, value pair",
+			},
 		},
 		Create: resourceCreateCatalog,
 		Read:   resourceReadCatalog,
@@ -54,6 +59,7 @@ func resourceCreateCatalog(d *schema.ResourceData, m interface{}) error {
 		Name:           d.Get("name").(string),
 		ProjectID:      d.Get("project_id").(int),
 		ConversionRate: d.Get("conversion_rate").(int),
+		ExternalPaymet: d.Get("external_payment").(int),
 	}
 
 	err := apiClient.NewItem(&item)
@@ -95,6 +101,7 @@ func resourceUpdateCatalog(d *schema.ResourceData, m interface{}) error {
 		Name:           d.Get("name").(string),
 		ProjectID:      d.Get("project_id").(int),
 		ConversionRate: d.Get("conversion_rate").(int),
+		ExternalPaymet: d.Get("external_payment").(bool),
 	}
 
 	err := apiClient.UpdateItem(&item)

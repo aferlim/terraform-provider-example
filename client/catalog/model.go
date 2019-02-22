@@ -6,4 +6,5 @@ type Catalog struct {
 	Name           string `json:"name"`
 	ProjectID      int    `json:"projectId"`
 	ConversionRate int    `json:"conversionRate"`
+	ExternalPaymet bool   `json:"externalPayment"`
 }

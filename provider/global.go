@@ -9,10 +9,11 @@ import (
 
 // AllClients provides all provider clients
 type AllClients struct {
-	ItemsClient    *iacitem.Client
-	CampaignClient *campaign.Client
-	CatalogClient  *catalog.Client
-	StoreClient    *store.Client
+	ItemsClient       *iacitem.Client
+	CampaignClient    *campaign.Client
+	CatalogClient     *catalog.Client
+	StoreClient       *store.Client
+	ParticipantClient *participant.Client
 }
 
 // InstanceClients isntance all the clients
@@ -22,5 +23,6 @@ func InstanceClients(address string, token string) (interface{}, error) {
 		campaign.NewClient(address, token),
 		catalog.NewClient(address, token),
 		store.NewClient(address, token),
+		participant.NewClient(address, token),
 	}, nil
 }
