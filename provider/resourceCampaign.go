@@ -23,7 +23,7 @@ func resourceCampaign() *schema.Resource {
 				Required:    true,
 				Description: "The name of the resource, also acts as it's unique ID",
 			},
-			"clientId": {
+			"client_id": {
 				Type:        schema.TypeInt,
 				Required:    true,
 				ForceNew:    true,
@@ -52,7 +52,7 @@ func resourceCreateCampaign(d *schema.ResourceData, m interface{}) error {
 	item := campaign.Campaign{
 		ID:             string(rand.Intn(1000)),
 		Name:           d.Get("name").(string),
-		ClientID:       d.Get("clientId").(int),
+		ClientID:       d.Get("client_id").(int),
 		ExternalPoints: d.Get("external_points").(int),
 	}
 
@@ -82,7 +82,7 @@ func resourceReadCampaign(d *schema.ResourceData, m interface{}) error {
 	d.SetId(itemID)
 	d.Set("code", itemID)
 	d.Set("name", item.Name)
-	d.Set("clientId", item.ClientID)
+	d.Set("client_id", item.ClientID)
 	d.Set("external_points", item.ExternalPoints)
 	return nil
 }
@@ -95,7 +95,7 @@ func resourceUpdateCampaign(d *schema.ResourceData, m interface{}) error {
 	item := campaign.Campaign{
 		ID:             itemID,
 		Name:           d.Get("name").(string),
-		ClientID:       d.Get("clientId").(int),
+		ClientID:       d.Get("client_id").(int),
 		ExternalPoints: d.Get("external_points").(int),
 	}
 
