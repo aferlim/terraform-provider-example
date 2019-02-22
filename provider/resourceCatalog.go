@@ -59,7 +59,7 @@ func resourceCreateCatalog(d *schema.ResourceData, m interface{}) error {
 		Name:           d.Get("name").(string),
 		ProjectID:      d.Get("project_id").(int),
 		ConversionRate: d.Get("conversion_rate").(int),
-		ExternalPaymet: d.Get("external_payment").(int),
+		ExternalPaymet: d.Get("external_payment").(bool),
 	}
 
 	err := apiClient.NewItem(&item)
