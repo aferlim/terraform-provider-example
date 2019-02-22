@@ -85,6 +85,7 @@ func resourceCreateStore(d *schema.ResourceData, m interface{}) error {
 	}
 
 	d.SetId(item.ID)
+	d.Set("parameters", tags)
 	return nil
 }
 

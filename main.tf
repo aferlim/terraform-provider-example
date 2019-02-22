@@ -42,3 +42,19 @@ resource "example_store" "extra" {
   project_configuration_id = "${example_catalog.catalogopiloto.id}"
   visible                  = 1
 }
+
+resource "example_store" "pontofrio" {
+  name                     = "Parceiro Ponto Frio Catalogo"
+  description              = "Parceiro Ponto Frio Catalogo Description"
+  vendor_id                = 58
+  project_configuration_id = "${example_catalog.catalogopiloto.id}"
+  visible                  = 1
+}
+
+resource "example_store" "casasbahia" {
+  name                     = "Parceiro CasasBahia Catalogo"
+  description              = "Parceiro Casas Bahia Catalogo Description"
+  vendor_id                = 60
+  project_configuration_id = "${example_catalog.catalogopiloto.id}"
+  visible                  = 1
+}
