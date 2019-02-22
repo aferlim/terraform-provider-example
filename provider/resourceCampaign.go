@@ -29,7 +29,7 @@ func resourceCampaign() *schema.Resource {
 				ForceNew:    true,
 				Description: "A description of an item",
 			},
-			"externalPoints": {
+			"external_points": {
 				Type:        schema.TypeInt,
 				Optional:    true,
 				Description: "An optional list of tags, represented as a key, value pair",
@@ -53,7 +53,7 @@ func resourceCreateCampaign(d *schema.ResourceData, m interface{}) error {
 		ID:             string(rand.Intn(1000)),
 		Name:           d.Get("name").(string),
 		ClientID:       d.Get("clientId").(int),
-		ExternalPoints: d.Get("externalPoints").(int),
+		ExternalPoints: d.Get("external_points").(int),
 	}
 
 	err := apiClient.NewItem(&item)
@@ -83,7 +83,7 @@ func resourceReadCampaign(d *schema.ResourceData, m interface{}) error {
 	d.Set("code", itemID)
 	d.Set("name", item.Name)
 	d.Set("clientId", item.ClientID)
-	d.Set("externalPoints", item.ExternalPoints)
+	d.Set("external_points", item.ExternalPoints)
 	return nil
 }
 
@@ -96,7 +96,7 @@ func resourceUpdateCampaign(d *schema.ResourceData, m interface{}) error {
 		ID:             itemID,
 		Name:           d.Get("name").(string),
 		ClientID:       d.Get("clientId").(int),
-		ExternalPoints: d.Get("externalPoints").(int),
+		ExternalPoints: d.Get("external_points").(int),
 	}
 
 	err := apiClient.UpdateItem(&item)

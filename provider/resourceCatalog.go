@@ -13,7 +13,7 @@ func resourceCatalog() *schema.Resource {
 	fmt.Print()
 	return &schema.Resource{
 		Schema: map[string]*schema.Schema{
-			"id": {
+			"code": {
 				Type:        schema.TypeString,
 				Computed:    true,
 				Description: "The id of the resource, also acts as it's unique ID",
@@ -23,13 +23,13 @@ func resourceCatalog() *schema.Resource {
 				Required:    true,
 				Description: "The name of the resource, also acts as it's unique ID",
 			},
-			"projectId": {
+			"project_id": {
 				Type:        schema.TypeInt,
 				Required:    true,
 				ForceNew:    true,
 				Description: "A description of an item",
 			},
-			"conversionRate": {
+			"conversion_rate": {
 				Type:        schema.TypeInt,
 				Required:    true,
 				Description: "An optional list of tags, represented as a key, value pair",
@@ -52,8 +52,8 @@ func resourceCreateCatalog(d *schema.ResourceData, m interface{}) error {
 	item := catalog.Catalog{
 		ID:             string(rand.Intn(1000)),
 		Name:           d.Get("name").(string),
-		ProjectID:      d.Get("projectId").(int),
-		ConversionRate: d.Get("conversionRate").(int),
+		ProjectID:      d.Get("project_id").(int),
+		ConversionRate: d.Get("conversion_rate").(int),
 	}
 
 	err := apiClient.NewItem(&item)
@@ -80,9 +80,10 @@ func resourceReadCatalog(d *schema.ResourceData, m interface{}) error {
 	}
 
 	d.SetId(itemID)
+	d.Set("code", itemID)
 	d.Set("name", item.Name)
-	d.Set("projectId", item.ProjectID)
-	d.Set("conversionRate", item.ConversionRate)
+	d.Set("project_id", item.ProjectID)
+	d.Set("conversion_rate", item.ConversionRate)
 	return nil
 }
 
@@ -90,9 +91,10 @@ func resourceUpdateCatalog(d *schema.ResourceData, m interface{}) error {
 	apiClient := m.(*AllClients).CatalogClient
 
 	item := catalog.Catalog{
+		ID:             d.Id(),
 		Name:           d.Get("name").(string),
-		ProjectID:      d.Get("projectId").(int),
-		ConversionRate: d.Get("conversionRate").(int),
+		ProjectID:      d.Get("project_id").(int),
+		ConversionRate: d.Get("conversion_rate").(int),
 	}
 
 	err := apiClient.UpdateItem(&item)
