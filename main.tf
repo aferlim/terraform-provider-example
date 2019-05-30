@@ -60,21 +60,21 @@ resource "example_store" "casasbahia" {
   visible                  = 1
 }
 
-resource "example_participant" "bufoni" {
-  name                     = "Vinicius Bufoni"
-  login                    = "vinicius.bufoni"
-  email                    = "vinicius.bufoni@grupoltm.com.br"
-  password                 = "123456"
-  customer_id              = 88
-  project_id               = "${example_campaign.piloto.id}"
-  project_configuration_id = "${example_catalog.catalogopiloto.id}"
-  active                   = true
-}
+// resource "example_participant" "bufoni" {
+//   name                     = "Vinicius Bufoni"
+//   login                    = "vinicius.bufoni"
+//   email                    = "vinicius.bufoni@grupoltm.com.br"
+//   password                 = "123456"
+//   customer_id              = 88
+//   project_id               = "${example_campaign.piloto.id}"
+//   project_configuration_id = "${example_catalog.catalogopiloto.id}"
+//   active                   = true
+// }
 
 resource "example_participant" "naldo" {
-  name                     = "Andre Lima"
+  name                     = "Andre Todesco Lima"
   login                    = "andre.lima"
-  email                    = "andre.lima@grupoltm.com.br"
+  email                    = "andre.lima@ltmfidelidade.com.br"
   password                 = "123456"
   customer_id              = 88
   project_id               = "${example_campaign.piloto.id}"
